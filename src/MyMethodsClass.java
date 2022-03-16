@@ -8,6 +8,7 @@ import redis.clients.jedis.Transaction;
 public class MyMethodsClass {
 	
 	Scanner sc = new Scanner(System.in);
+	//this method is used to SET the data in database
 	public void setDataInDataBase(String dbCommand, Jedis connectToDatabase) {
 		try {
 			connectToDatabase = new Jedis("localhost");  //used to connect to Redis database running on "localhost"
@@ -22,32 +23,39 @@ public class MyMethodsClass {
 		}
 	}
 	
-	public void getDataFromDatabase(String dbCommand, Jedis connectToDatabase) {
+	//this method is used to GET the data from database
+	public String getDataFromDatabase(String dbCommand, Jedis connectToDatabase) {
+		String getValue = "";
 		try {
-			connectToDatabase = new Jedis("localhost");
+			connectToDatabase = new Jedis("localhost");	 //used to connect to Redis database running on "localhost"
 			System.out.println("Conenction successful");
 			String myDataArray[] = dbCommand.split(" ");
 			System.out.println("The search key is: " +myDataArray[1]);
 			System.out.println("The corresponding value is : " +connectToDatabase.get(myDataArray[1]));
-			System.out.println("Operation of Getting Data Successfull!");
+			System.out.println("Operation of Getting Data Successful!");
+			getValue = connectToDatabase.get(myDataArray[1]);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return getValue;
 	}
 	
+	//this method is used to delete data from database
 	public void deleteDataFromDatabase(String dbCommand, Jedis connectToDatabase) {
 		try {
-			connectToDatabase = new Jedis("localhost");
+			connectToDatabase = new Jedis("localhost");  //used to connect to Redis database running on "localhost"
 			System.out.println("Conenction successful");
 			String myDataArray[] = dbCommand.split(" ");
 			System.out.println("The search key to delete is: " +myDataArray[1]);
 			connectToDatabase.del(myDataArray[1]);
+			System.out.println("The data has been deleted successfully.");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
+	//this method is used to increment data by 1
 	public void incrementData(String dbCommand, Jedis connectToDatabase) {
 		try {
 			connectToDatabase = new Jedis("localhost");
@@ -62,7 +70,8 @@ public class MyMethodsClass {
 		}
 	}
 	
-	public void incrementCounterBySomeValue(String dbCommand, Jedis connectToDatabase) {
+	//this method is used to increment data by a particular number
+	public void incrementBySomeValue(String dbCommand, Jedis connectToDatabase) {
 		try {
 			connectToDatabase = new Jedis("localhost");
 			System.out.println("Conenction successful");
@@ -78,44 +87,7 @@ public class MyMethodsClass {
 		}
 	}
 	
-	public void setInMultiTransaction(Jedis connectToDatabase, Transaction transaction) throws Exception{
-		try {
-			connectToDatabase = new Jedis("localhost");
-			BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-			System.out.println("Conenction successful");
-			System.out.println("Input the SET command:");
-			String dbCommand = reader.readLine();
-			String myDataArray[] = dbCommand.split(" ");
-			if(myDataArray[0].equalsIgnoreCase("set")) {
-				transaction.set(myDataArray[1], myDataArray[2]);
-			} else {
-				throw new Exception("You did not enter the correct SET command.");
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void incrMultiTransaction(Jedis connectToDatabase, Transaction transaction) throws Exception{
-		try {
-			connectToDatabase = new Jedis("localhost");
-			BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-			System.out.println("Connection successful");
-			System.out.println("Enter the INCR command:");
-			String dbCommand = reader.readLine();
-			String myDataArray[] = dbCommand.split(" ");
-			if(myDataArray[0].equalsIgnoreCase("incr")) {
-				transaction.incr(myDataArray[1]);
-			} else {
-				throw new Exception("You did not enter the correct INCR command.");
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
+
 	public void multiTransactions(Jedis connectToDatabase, Transaction transaction) throws Exception{
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		connectToDatabase = new Jedis("localhost"); 
@@ -160,6 +132,46 @@ public class MyMethodsClass {
 			} else {
 				throw new Exception("No keys preset!!!");
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//used only in case 3.
+	public void setInMultiTransaction(Jedis connectToDatabase, Transaction transaction) throws Exception{
+		try {
+			connectToDatabase = new Jedis("localhost");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+			System.out.println("Conenction successful");
+			System.out.println("Input the SET command:");
+			String dbCommand = reader.readLine();
+			String myDataArray[] = dbCommand.split(" ");
+			if(myDataArray[0].equalsIgnoreCase("set")) {
+				transaction.set(myDataArray[1], myDataArray[2]);
+			} else {
+				throw new Exception("You did not enter the correct SET command.");
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//used only in case 3.
+	public void incrMultiTransaction(Jedis connectToDatabase, Transaction transaction) throws Exception{
+		try {
+			connectToDatabase = new Jedis("localhost");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+			System.out.println("Connection successful");
+			System.out.println("Enter the INCR command:");
+			String dbCommand = reader.readLine();
+			String myDataArray[] = dbCommand.split(" ");
+			if(myDataArray[0].equalsIgnoreCase("incr")) {
+				transaction.incr(myDataArray[1]);
+			} else {
+				throw new Exception("You did not enter the correct INCR command.");
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -273,7 +285,7 @@ public class MyMethodsClass {
 			String dbCommand4 = reader.readLine();
 			String myDataArray4[] = dbCommand4.split(" ");
 			if(myDataArray4[0].equalsIgnoreCase("incrby")) {
-				incrementCounterBySomeValue(dbCommand4, connectToDatabase);
+				incrementBySomeValue(dbCommand4, connectToDatabase);
 			} else {
 				throw new Exception("You did not enter the correct INCRBY command.");
 			}
@@ -291,7 +303,7 @@ public class MyMethodsClass {
 		}
 	}
 	
-	public void Case3HappyPath() throws Exception{
+	public void Case3HappyPath() throws Exception {
 		Jedis connectToDatabase = new Jedis("localhost");
 		BufferedReader reader =new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("You've called CASE3HAPPYPATH");
@@ -410,7 +422,7 @@ public class MyMethodsClass {
 			String dbCommand2 = reader.readLine();
 			String myDataArray2[] = dbCommand2.split(" ");
 			if(myDataArray2[0].equalsIgnoreCase("incrby")) {
-				incrementCounterBySomeValue(dbCommand2, connectToDatabase);
+				incrementBySomeValue(dbCommand2, connectToDatabase);
 			} else {
 				throw new Exception("You did not enter the correct INCRBY command.");
 			}
