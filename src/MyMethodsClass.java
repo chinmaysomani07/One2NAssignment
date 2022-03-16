@@ -88,6 +88,7 @@ public class MyMethodsClass {
 	}
 	
 
+	//this method is used for MULTI transaction
 	public void multiTransactions(Jedis connectToDatabase, Transaction transaction) throws Exception{
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		connectToDatabase = new Jedis("localhost"); 
@@ -120,6 +121,7 @@ public class MyMethodsClass {
 		}
 	}
 	
+	//this method is for COMPACT
 	public void compactCommand(Jedis connectToDatabase) {
 		try {
 			connectToDatabase = new Jedis("localhost"); 
