@@ -13,7 +13,7 @@
 
 ------------------------------------------------------Assumptions made------------------------------------------------------
 
-	i)User may want to manually enter the commands or directly execute the cases. (Though directly executing the cases will restrict the scope of program. Hence 		  manually entering the commands is a better approach.)
+	i)User may want to manually enter the commands or directly execute the cases. (Though directly executing the cases will restrict the scope of program. Hence manually entering the commands is a better approach.)
 	
 	ii)Program runs in an infinite loop, hence user can provide any number of commands.
 	
@@ -24,7 +24,7 @@
 	v)Program will throw exception and terminate itself if the input from user is not valid.
 
 
-------------------------------------------------------My approach for the problem------------------------------------------------------ 
+------------------------------------------------------My approach------------------------------------------------------ 
 
 	i)Making Redis server active (on local) for use is the first and most important step.
 	
