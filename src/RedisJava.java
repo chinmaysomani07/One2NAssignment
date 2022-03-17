@@ -10,8 +10,7 @@ public class RedisJava {
 		MyMethodsClass myMethodClass = new MyMethodsClass();
 		Scanner sc = new Scanner(System.in);
 		try {
-			Jedis connectToDatabase = new Jedis("localhost"); // used to connect to Redis database running on
-																// "localhost"
+			Jedis connectToDatabase = new Jedis("localhost"); // used to connect to Redis database running on "localhost"
 			Transaction transaction = connectToDatabase.multi();
 			System.out.println("Welcome to Command Line");
 			System.out.println("Press");
