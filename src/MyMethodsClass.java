@@ -109,7 +109,7 @@ public class MyMethodsClass {
 		}
 	}
 
-	//this method is for COMPACT
+	// this method is for COMPACT
 	public void compactCommand(Jedis connectToDatabase) {
 		try {
 			Set<String> keySet = connectToDatabase.keys("*");
