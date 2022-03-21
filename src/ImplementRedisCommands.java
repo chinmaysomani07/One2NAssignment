@@ -1,21 +1,23 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Set;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Transaction;
 
-public class MyMethodsClass {
+public class ImplementRedisCommands {
 
-	Scanner sc = new Scanner(System.in);
+	Scanner scanner = new Scanner(System.in);
 
 	// this method is used to SET the data in database
 	public void setDataInDataBase(String dbCommand, Jedis connectToDatabase) {
 		try {
-			String myDataArray[] = dbCommand.split(" ");
-			System.out.println("The key is: " + myDataArray[1]);
-			System.out.println("The value is: " + myDataArray[2]);
-			connectToDatabase.set(myDataArray[1], myDataArray[2]);
+			String myDBCommandSplitData[] = dbCommand.split(" ");
+			System.out.println("The key is: " + myDBCommandSplitData[1]);
+			System.out.println("The value is: " + myDBCommandSplitData[2]);
+			connectToDatabase.set(myDBCommandSplitData[1], myDBCommandSplitData[2]);
 			System.out.println("Operation of Setting Data Successful!");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -26,11 +28,11 @@ public class MyMethodsClass {
 	public String getDataFromDatabase(String dbCommand, Jedis connectToDatabase) {
 		String getValue = "";
 		try {
-			String myDataArray[] = dbCommand.split(" ");
-			System.out.println("The search key is: " + myDataArray[1]);
-			System.out.println("The corresponding value is : " + connectToDatabase.get(myDataArray[1]));
+			String myDBCommandSplitData[] = dbCommand.split(" ");
+			System.out.println("The search key is: " + myDBCommandSplitData[1]);
+			System.out.println("The corresponding value is : " + connectToDatabase.get(myDBCommandSplitData[1]));
 			System.out.println("Operation of Getting Data Successful!");
-			getValue = connectToDatabase.get(myDataArray[1]);
+			getValue = connectToDatabase.get(myDBCommandSplitData[1]);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -40,9 +42,9 @@ public class MyMethodsClass {
 	// this method is used to delete data from database
 	public void deleteDataFromDatabase(String dbCommand, Jedis connectToDatabase) {
 		try {
-			String myDataArray[] = dbCommand.split(" ");
-			System.out.println("The search key to delete is: " + myDataArray[1]);
-			connectToDatabase.del(myDataArray[1]);
+			String myDBCommandSplitData[] = dbCommand.split(" ");
+			System.out.println("The search key to delete is: " + myDBCommandSplitData[1]);
+			connectToDatabase.del(myDBCommandSplitData[1]);
 			System.out.println("The data has been deleted successfully.");
 
 		} catch (Exception e) {
@@ -53,11 +55,11 @@ public class MyMethodsClass {
 	// this method is used to increment data by 1
 	public void incrementData(String dbCommand, Jedis connectToDatabase) {
 		try {
-			String myDataArray[] = dbCommand.split(" ");
-			System.out.println("The search key whose value to increment is: " + myDataArray[1]);
-			connectToDatabase.incr(myDataArray[1]);
+			String myDBCommandSplitData[] = dbCommand.split(" ");
+			System.out.println("The search key whose value to increment is: " + myDBCommandSplitData[1]);
+			connectToDatabase.incr(myDBCommandSplitData[1]);
 			System.out.println("The operation of incrementing data is successful!");
-			System.out.println("The new value of " + myDataArray[1] + " is:" + connectToDatabase.get(myDataArray[1]));
+			System.out.println("The new value of " + myDBCommandSplitData[1] + " is:" + connectToDatabase.get(myDBCommandSplitData[1]));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -66,12 +68,12 @@ public class MyMethodsClass {
 	// this method is used to increment data by a particular number
 	public void incrementBySomeValue(String dbCommand, Jedis connectToDatabase) {
 		try {
-			String myDataArray[] = dbCommand.split(" ");
-			System.out.println("The search key whose value to increment is: " + myDataArray[1]);
-			System.out.println("Amount by which value should increase is: " + myDataArray[2]);
-			connectToDatabase.incrBy(myDataArray[1], Long.parseLong(myDataArray[2]));
-			System.out.println("The operation of incrementing value by " + myDataArray[2] + " is successful!");
-			System.out.println("The new value of " + myDataArray[1] + " is:" + connectToDatabase.get(myDataArray[1]));
+			String myDBCommandSplitData[] = dbCommand.split(" ");
+			System.out.println("The search key whose value to increment is: " + myDBCommandSplitData[1]);
+			System.out.println("Amount by which value should increase is: " + myDBCommandSplitData[2]);
+			connectToDatabase.incrBy(myDBCommandSplitData[1], Long.parseLong(myDBCommandSplitData[2]));
+			System.out.println("The operation of incrementing value by " + myDBCommandSplitData[2] + " is successful!");
+			System.out.println("The new value of " + myDBCommandSplitData[1] + " is:" + connectToDatabase.get(myDBCommandSplitData[1]));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -85,23 +87,23 @@ public class MyMethodsClass {
 			System.out.println("You are executing Multi Command. Press");
 			System.out.println("--> 1 for entering commands.");
 			System.out.println("--> 0 for exiting");
-			int choice = sc.nextInt();
+			int choice = scanner.nextInt();
 			if (choice == 1) {
 				System.out.println("Enter the command:");
 				String dbCommand = reader.readLine();
-				String myDataArray[] = dbCommand.split(" ");
-				if (myDataArray[0].equalsIgnoreCase("set")) {
-					transaction.set(myDataArray[1], myDataArray[2]);
-				} else if (myDataArray[0].equalsIgnoreCase("incr")) {
-					transaction.incr(myDataArray[1]);
-				} else if (myDataArray[0].equalsIgnoreCase("get")) {
-					System.out.println(connectToDatabase.get(myDataArray[1]));
-				} else if (myDataArray[0].equalsIgnoreCase("discard")) {
+				String myDBCommandSplitData[] = dbCommand.split(" ");
+				if (myDBCommandSplitData[0].equalsIgnoreCase("set")) {
+					transaction.set(myDBCommandSplitData[1], myDBCommandSplitData[2]);
+				} else if (myDBCommandSplitData[0].equalsIgnoreCase("incr")) {
+					transaction.incr(myDBCommandSplitData[1]);
+				} else if (myDBCommandSplitData[0].equalsIgnoreCase("get")) {
+					System.out.println(connectToDatabase.get(myDBCommandSplitData[1]));
+				} else if (myDBCommandSplitData[0].equalsIgnoreCase("discard")) {
 					transaction.discard();
-				} else if (myDataArray[0].equalsIgnoreCase("exec")) {
+				} else if (myDBCommandSplitData[0].equalsIgnoreCase("exec")) {
 					transaction.exec();
-				} else if (myDataArray[0].equalsIgnoreCase("incrby")) {
-					transaction.incrBy(myDataArray[1], Long.parseLong(myDataArray[2]));
+				} else if (myDBCommandSplitData[0].equalsIgnoreCase("incrby")) {
+					transaction.incrBy(myDBCommandSplitData[1], Long.parseLong(myDBCommandSplitData[2]));
 				}
 			} else {
 				break;
@@ -134,9 +136,9 @@ public class MyMethodsClass {
 			System.out.println("Conenction successful");
 			System.out.println("Input the SET command:");
 			String dbCommand = reader.readLine();
-			String myDataArray[] = dbCommand.split(" ");
-			if (myDataArray[0].equalsIgnoreCase("set")) {
-				transaction.set(myDataArray[1], myDataArray[2]);
+			String myDBCommandSplitData[] = dbCommand.split(" ");
+			if (myDBCommandSplitData[0].equalsIgnoreCase("set")) {
+				transaction.set(myDBCommandSplitData[1], myDBCommandSplitData[2]);
 			} else {
 				throw new Exception("You did not enter the correct SET command.");
 			}
@@ -154,9 +156,9 @@ public class MyMethodsClass {
 			System.out.println("Connection successful");
 			System.out.println("Enter the INCR command:");
 			String dbCommand = reader.readLine();
-			String myDataArray[] = dbCommand.split(" ");
-			if (myDataArray[0].equalsIgnoreCase("incr")) {
-				transaction.incr(myDataArray[1]);
+			String myDBCommandSplitData[] = dbCommand.split(" ");
+			if (myDBCommandSplitData[0].equalsIgnoreCase("incr")) {
+				transaction.incr(myDBCommandSplitData[1]);
 			} else {
 				throw new Exception("You did not enter the correct INCR command.");
 			}
@@ -173,8 +175,8 @@ public class MyMethodsClass {
 		try {
 			System.out.println("Enter the first SET command: ");
 			String dbCommand1 = reader.readLine();
-			String myDataArray1[] = dbCommand1.split(" ");
-			if (myDataArray1[0].equalsIgnoreCase("set")) {
+			String myDBCommandSplitData1[] = dbCommand1.split(" ");
+			if (myDBCommandSplitData1[0].equalsIgnoreCase("set")) {
 				setDataInDataBase(dbCommand1, connectToDatabase);
 			} else {
 				throw new Exception("You did not enter the correct SET command.");
@@ -182,9 +184,8 @@ public class MyMethodsClass {
 
 			System.out.println("Enter the second SET command: ");
 			String dbCommand2 = reader.readLine();
-			String myInputCommand2 = dbCommand2.toLowerCase();
-			String myDataArray2[] = dbCommand2.split(" ");
-			if (myDataArray2[0].equalsIgnoreCase("set")) {
+			String myDBCommandSplitData2[] = dbCommand2.split(" ");
+			if (myDBCommandSplitData2[0].equalsIgnoreCase("set")) {
 				setDataInDataBase(dbCommand2, connectToDatabase);
 			} else {
 				throw new Exception("You did not enter the correct SET command.");
@@ -192,8 +193,8 @@ public class MyMethodsClass {
 
 			System.out.println("Enter the GET command for dbCommand1 : ");
 			String dbCommand3 = reader.readLine();
-			String myDataArray3[] = dbCommand3.split(" ");
-			if (myDataArray3[0].equalsIgnoreCase("get")) {
+			String myDBCommandSplitData3[] = dbCommand3.split(" ");
+			if (myDBCommandSplitData3[0].equalsIgnoreCase("get")) {
 				getDataFromDatabase(dbCommand3, connectToDatabase);
 			} else {
 				throw new Exception("You did not enter the correct GET command.");
@@ -201,8 +202,8 @@ public class MyMethodsClass {
 
 			System.out.println("Enter DEL command for dbCommand2: ");
 			String dbCommand4 = reader.readLine();
-			String myDataArray4[] = dbCommand4.split(" ");
-			if (myDataArray4[0].equalsIgnoreCase("del")) {
+			String myDBCommandSplitData4[] = dbCommand4.split(" ");
+			if (myDBCommandSplitData4[0].equalsIgnoreCase("del")) {
 				deleteDataFromDatabase(dbCommand4, connectToDatabase);
 			} else {
 				throw new Exception("You did not enter the correct DEL command.");
@@ -210,8 +211,8 @@ public class MyMethodsClass {
 
 			System.out.println("Enter GET command for dbCommand2 (should return (nil)): ");
 			String dbCommand5 = reader.readLine();
-			String myDataArray5[] = dbCommand5.split(" ");
-			if (myDataArray5[0].equalsIgnoreCase("get")) {
+			String myDBCommandSplitData5[] = dbCommand5.split(" ");
+			if (myDBCommandSplitData5[0].equalsIgnoreCase("get")) {
 				getDataFromDatabase(dbCommand5, connectToDatabase);
 			} else {
 				throw new Exception("You did not enter the correct GET command.");
@@ -219,8 +220,8 @@ public class MyMethodsClass {
 
 			System.out.println("Enter SET command again for dbCommand2");
 			String dbCommand6 = reader.readLine();
-			String myDataArray6[] = dbCommand6.split(" ");
-			if (myDataArray6[0].equalsIgnoreCase("set")) {
+			String myDBCommandSplitData6[] = dbCommand6.split(" ");
+			if (myDBCommandSplitData6[0].equalsIgnoreCase("set")) {
 				setDataInDataBase(dbCommand6, connectToDatabase);
 			} else {
 				throw new Exception("You did not enter the correct SET command.");
@@ -237,8 +238,8 @@ public class MyMethodsClass {
 		try {
 			System.out.println("Enter the SET command for setting the counter to any number: ");
 			String dbCommand1 = reader.readLine();
-			String myDataArray1[] = dbCommand1.split(" ");
-			if (myDataArray1[0].equalsIgnoreCase("set")) {
+			String myDBCommandSplitData1[] = dbCommand1.split(" ");
+			if (myDBCommandSplitData1[0].equalsIgnoreCase("set")) {
 				setDataInDataBase(dbCommand1, connectToDatabase);
 			} else {
 				throw new Exception("You did not enter the correct SET command.");
@@ -246,14 +247,14 @@ public class MyMethodsClass {
 
 			System.out.println("Enter the INCR command for the key:");
 			String dbCommand2 = reader.readLine();
-			String myDataArray2[] = dbCommand2.split(" ");
+			String myDBCommandSplitData2[] = dbCommand2.split(" ");
 
 			// now check if key exists? if it exists then increment it by 1, else throw
 			// error
 
-			boolean keyExists = connectToDatabase.exists(myDataArray2[1]);
+			boolean keyExists = connectToDatabase.exists(myDBCommandSplitData2[1]);
 			boolean correctIncrCommand = false;
-			if (myDataArray2[0].equalsIgnoreCase("incr")) {
+			if (myDBCommandSplitData2[0].equalsIgnoreCase("incr")) {
 				correctIncrCommand = true;
 			}
 			if (keyExists && correctIncrCommand) {
@@ -264,8 +265,8 @@ public class MyMethodsClass {
 
 			System.out.println("Enter the GET command to get the counter value:");
 			String dbCommand3 = reader.readLine();
-			String myDataArray3[] = dbCommand3.split(" ");
-			if (myDataArray3[0].equalsIgnoreCase("get")) {
+			String myDBCommandSplitData3[] = dbCommand3.split(" ");
+			if (myDBCommandSplitData3[0].equalsIgnoreCase("get")) {
 				getDataFromDatabase(dbCommand3, connectToDatabase);
 			} else {
 				throw new Exception("You did not enter the correct GET command.");
@@ -273,8 +274,8 @@ public class MyMethodsClass {
 
 			System.out.println("Enter the INCRBY command:");
 			String dbCommand4 = reader.readLine();
-			String myDataArray4[] = dbCommand4.split(" ");
-			if (myDataArray4[0].equalsIgnoreCase("incrby")) {
+			String myDBCommandSplitData4[] = dbCommand4.split(" ");
+			if (myDBCommandSplitData4[0].equalsIgnoreCase("incrby")) {
 				incrementBySomeValue(dbCommand4, connectToDatabase);
 			} else {
 				throw new Exception("You did not enter the correct INCRBY command.");
@@ -282,8 +283,8 @@ public class MyMethodsClass {
 
 			System.out.println("Enter the INCR command:");
 			String dbCommand5 = reader.readLine();
-			String myDataArray5[] = dbCommand5.split(" ");
-			if (myDataArray5[0].equalsIgnoreCase("incr")) {
+			String myDBCommandSplitData5[] = dbCommand5.split(" ");
+			if (myDBCommandSplitData5[0].equalsIgnoreCase("incr")) {
 				incrementData(dbCommand5, connectToDatabase);
 			} else {
 				throw new Exception("You did not enter the correct INCR command.");
@@ -329,8 +330,8 @@ public class MyMethodsClass {
 		try {
 			System.out.println("Enter the SET command for setting the counter to any number: ");
 			String dbCommand1 = reader.readLine();
-			String myDataArray1[] = dbCommand1.split(" ");
-			if (myDataArray1[0].equalsIgnoreCase("set")) {
+			String myDBCommandSplitData1[] = dbCommand1.split(" ");
+			if (myDBCommandSplitData1[0].equalsIgnoreCase("set")) {
 				setDataInDataBase(dbCommand1, connectToDatabase);
 			} else {
 				throw new Exception("You did not enter the correct SET command.");
@@ -338,8 +339,8 @@ public class MyMethodsClass {
 
 			System.out.println("Enter the INCR command for the key:");
 			String dbCommand2 = reader.readLine();
-			String myDataArray2[] = dbCommand2.split(" ");
-			if (myDataArray2[0].equalsIgnoreCase("incr")) {
+			String myDBCommandSplitData2[] = dbCommand2.split(" ");
+			if (myDBCommandSplitData2[0].equalsIgnoreCase("incr")) {
 				incrementData(dbCommand2, connectToDatabase);
 			} else {
 				throw new Exception("You did not enter the correct INCR command.");
@@ -347,8 +348,8 @@ public class MyMethodsClass {
 
 			System.out.println("Enter the INCR command for the key:");
 			String dbCommand3 = reader.readLine();
-			String myDataArray3[] = dbCommand3.split(" ");
-			if (myDataArray3[0].equalsIgnoreCase("incr")) {
+			String myDBCommandSplitData3[] = dbCommand3.split(" ");
+			if (myDBCommandSplitData3[0].equalsIgnoreCase("incr")) {
 				incrementData(dbCommand3, connectToDatabase);
 			} else {
 				throw new Exception("You did not enter the correct INCR command.");
@@ -356,8 +357,8 @@ public class MyMethodsClass {
 
 			System.out.println("Enter the SET command:");
 			String dbCommand4 = reader.readLine();
-			String myDataArray4[] = dbCommand1.split(" ");
-			if (myDataArray4[0].equalsIgnoreCase("set")) {
+			String myDBCommandSplitData4[] = dbCommand1.split(" ");
+			if (myDBCommandSplitData4[0].equalsIgnoreCase("set")) {
 				setDataInDataBase(dbCommand4, connectToDatabase);
 			} else {
 				throw new Exception("You did not enter the correct SET command.");
@@ -374,8 +375,8 @@ public class MyMethodsClass {
 
 			System.out.println("Enter the INCR command for the key:");
 			String dbCommand6 = reader.readLine();
-			String myDataArray6[] = dbCommand6.split(" ");
-			if (myDataArray6[0].equalsIgnoreCase("incr")) {
+			String myDBCommandSplitData6[] = dbCommand6.split(" ");
+			if (myDBCommandSplitData6[0].equalsIgnoreCase("incr")) {
 				incrementData(dbCommand6, connectToDatabase);
 			} else {
 				throw new Exception("You did not enter the correct INCR command.");
@@ -383,8 +384,8 @@ public class MyMethodsClass {
 
 			System.out.println("Enter the COMPACT command:");
 			String dbCommand7 = reader.readLine();
-			String myDataArray7[] = dbCommand7.split(" ");
-			if (myDataArray7[0].equalsIgnoreCase("compact")) {
+			String myDBCommandSplitData7[] = dbCommand7.split(" ");
+			if (myDBCommandSplitData7[0].equalsIgnoreCase("compact")) {
 				compactCommand(connectToDatabase);
 			} else {
 				throw new Exception("You did not enter the correct COMPACT command.");
@@ -401,8 +402,8 @@ public class MyMethodsClass {
 		try {
 			System.out.println("Enter the INCR command: (KEY DOES NOT EXISTS AND IT WILL MAKE A NEW KEY)");
 			String dbCommand1 = reader.readLine();
-			String myDataArray1[] = dbCommand1.split(" ");
-			if (myDataArray1[0].equalsIgnoreCase("incr")) {
+			String myDBCommandSplitData1[] = dbCommand1.split(" ");
+			if (myDBCommandSplitData1[0].equalsIgnoreCase("incr")) {
 				incrementData(dbCommand1, connectToDatabase);
 			} else {
 				throw new Exception("You did not enter the correct INCR command.");
@@ -410,8 +411,8 @@ public class MyMethodsClass {
 
 			System.out.println("Enter the INCRBY command for the previous key:");
 			String dbCommand2 = reader.readLine();
-			String myDataArray2[] = dbCommand2.split(" ");
-			if (myDataArray2[0].equalsIgnoreCase("incrby")) {
+			String myDBCommandSplitData2[] = dbCommand2.split(" ");
+			if (myDBCommandSplitData2[0].equalsIgnoreCase("incrby")) {
 				incrementBySomeValue(dbCommand2, connectToDatabase);
 			} else {
 				throw new Exception("You did not enter the correct INCRBY command.");
@@ -437,8 +438,8 @@ public class MyMethodsClass {
 
 			System.out.println("Enter the COMPACT command:");
 			String dbCommand5 = reader.readLine();
-			String myDataArray5[] = dbCommand5.split(" ");
-			if (myDataArray5[0].equalsIgnoreCase("compact")) {
+			String myDBCommandSplitData5[] = dbCommand5.split(" ");
+			if (myDBCommandSplitData5[0].equalsIgnoreCase("compact")) {
 				compactCommand(connectToDatabase);
 			} else {
 				throw new Exception("You did not enter the correct COMPACT command.");

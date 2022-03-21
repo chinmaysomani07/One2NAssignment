@@ -1,14 +1,13 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Scanner;
-
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Transaction;
 
-public class RedisJava {
+public class RedisImplementationUsingJava {
 	public static void main(String[] args) throws Exception {
-		MyMethodsClass myMethodClass = new MyMethodsClass();
-		Scanner sc = new Scanner(System.in);
+		ImplementRedisCommands myMethodClass = new ImplementRedisCommands();
+		Scanner scanner = new Scanner(System.in);
 		try {
 			Jedis connectToDatabase = new Jedis("localhost"); // used to connect to Redis database running on "localhost"
 			System.out.println("The connection is successful.");
@@ -17,7 +16,7 @@ public class RedisJava {
 			System.out.println("Press");
 			System.out.println("--> 1 for performing database operations.");
 			System.out.println("--> 2 for if you directly want to check Cases");
-			int inputForChecks = sc.nextInt();
+			int inputForChecks = scanner.nextInt();
 			// to manually enter the commands.
 			if (inputForChecks == 1) {
 				while (true) {
@@ -26,7 +25,7 @@ public class RedisJava {
 						System.out.println("Press ");
 						System.out.println("--> 1 for giving command input.");
 						System.out.println("--> 0 to exit.");
-						int inputChoice = sc.nextInt();
+						int inputChoice = scanner.nextInt();
 						if (inputChoice == 1) {
 							System.out.println("Enter your Command:");
 							BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -73,7 +72,7 @@ public class RedisJava {
 				System.out.println("4 for Case 3: Command spanning multiple sub-commands DISCARD");
 				System.out.println("5 for Case 4: Generate compacted command output EXAMPLE 1");
 				System.out.println("6 for Case 4: Generate compacted command output EXAMPLE 2");
-				int caseChoice = sc.nextInt();
+				int caseChoice = scanner.nextInt();
 				if (caseChoice == 1) {
 					myMethodClass.Case1();
 				} else if (caseChoice == 2) {
