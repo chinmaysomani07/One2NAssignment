@@ -83,6 +83,7 @@ public class ImplementRedisCommands {
 	// this method is used for MULTI transaction
 	public void multiTransactions(Jedis connectToDatabase, Transaction transaction) throws Exception {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		transaction = connectToDatabase.multi();
 		while (true) {
 			System.out.println("You are executing Multi Command. Press");
 			System.out.println("--> 1 for entering commands.");
