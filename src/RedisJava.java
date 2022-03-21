@@ -11,7 +11,8 @@ public class RedisJava {
 		Scanner sc = new Scanner(System.in);
 		try {
 			Jedis connectToDatabase = new Jedis("localhost"); // used to connect to Redis database running on "localhost"
-			Transaction transaction = connectToDatabase.multi();
+			System.out.println("The connection is successful.");
+			//Transaction transaction = connectToDatabase.multi();
 			System.out.println("Welcome to Command Line");
 			System.out.println("Press");
 			System.out.println("--> 1 for performing database operations.");
@@ -44,6 +45,7 @@ public class RedisJava {
 							} else if (myDataArray[0].equalsIgnoreCase("incrby")) {
 								myMethodClass.incrementBySomeValue(dbCommand, connectToDatabase);
 							} else if (myDataArray[0].equalsIgnoreCase("multi")) {
+							    Transaction transaction = connectToDatabase.multi();
 								myMethodClass.multiTransactions(connectToDatabase, transaction);
 							} else if (myDataArray[0].equalsIgnoreCase("compact")) {
 								myMethodClass.compactCommand(connectToDatabase);

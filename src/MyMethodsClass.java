@@ -12,8 +12,6 @@ public class MyMethodsClass {
 	// this method is used to SET the data in database
 	public void setDataInDataBase(String dbCommand, Jedis connectToDatabase) {
 		try {
-			connectToDatabase = new Jedis("localhost"); // used to connect to Redis database running on "localhost"
-			System.out.println("Conenction successful");
 			String myDataArray[] = dbCommand.split(" ");
 			System.out.println("The key is: " + myDataArray[1]);
 			System.out.println("The value is: " + myDataArray[2]);
@@ -28,8 +26,6 @@ public class MyMethodsClass {
 	public String getDataFromDatabase(String dbCommand, Jedis connectToDatabase) {
 		String getValue = "";
 		try {
-			connectToDatabase = new Jedis("localhost"); // used to connect to Redis database running on "localhost"
-			System.out.println("Conenction successful");
 			String myDataArray[] = dbCommand.split(" ");
 			System.out.println("The search key is: " + myDataArray[1]);
 			System.out.println("The corresponding value is : " + connectToDatabase.get(myDataArray[1]));
@@ -44,8 +40,6 @@ public class MyMethodsClass {
 	// this method is used to delete data from database
 	public void deleteDataFromDatabase(String dbCommand, Jedis connectToDatabase) {
 		try {
-			connectToDatabase = new Jedis("localhost"); // used to connect to Redis database running on "localhost"
-			System.out.println("Conenction successful");
 			String myDataArray[] = dbCommand.split(" ");
 			System.out.println("The search key to delete is: " + myDataArray[1]);
 			connectToDatabase.del(myDataArray[1]);
@@ -59,8 +53,6 @@ public class MyMethodsClass {
 	// this method is used to increment data by 1
 	public void incrementData(String dbCommand, Jedis connectToDatabase) {
 		try {
-			connectToDatabase = new Jedis("localhost");
-			System.out.println("Conenction successful");
 			String myDataArray[] = dbCommand.split(" ");
 			System.out.println("The search key whose value to increment is: " + myDataArray[1]);
 			connectToDatabase.incr(myDataArray[1]);
@@ -74,8 +66,6 @@ public class MyMethodsClass {
 	// this method is used to increment data by a particular number
 	public void incrementBySomeValue(String dbCommand, Jedis connectToDatabase) {
 		try {
-			connectToDatabase = new Jedis("localhost");
-			System.out.println("Conenction successful");
 			String myDataArray[] = dbCommand.split(" ");
 			System.out.println("The search key whose value to increment is: " + myDataArray[1]);
 			System.out.println("Amount by which value should increase is: " + myDataArray[2]);
@@ -91,8 +81,6 @@ public class MyMethodsClass {
 	// this method is used for MULTI transaction
 	public void multiTransactions(Jedis connectToDatabase, Transaction transaction) throws Exception {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		connectToDatabase = new Jedis("localhost");
-		transaction = connectToDatabase.multi();
 		while (true) {
 			System.out.println("You are executing Multi Command. Press");
 			System.out.println("--> 1 for entering commands.");
@@ -124,7 +112,6 @@ public class MyMethodsClass {
 	// this method is for COMPACT
 	public void compactCommand(Jedis connectToDatabase) {
 		try {
-			connectToDatabase = new Jedis("localhost");
 			Set<String> keySet = connectToDatabase.keys("*");
 			if (keySet.size() > 0) {
 				for (String key : keySet) {
