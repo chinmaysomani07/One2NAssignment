@@ -102,6 +102,7 @@ public class ImplementRedisCommands {
 					transaction.discard();
 				} else if (myDBCommandSplitData[0].equalsIgnoreCase("exec")) {
 					transaction.exec();
+					System.out.println("Executed the transaction.");
 				} else if (myDBCommandSplitData[0].equalsIgnoreCase("incrby")) {
 					transaction.incrBy(myDBCommandSplitData[1], Long.parseLong(myDBCommandSplitData[2]));
 				}
